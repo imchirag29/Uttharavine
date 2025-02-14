@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #ff4d4d;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid;
+            width: fit-content;
+            margin: auto;
+            animation: typing 3s steps(30, end) forwards;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .yes {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        .no {
+            background-color: #ff9999;
+            color: white;
+            position: absolute;
+        }
+        .floating-hearts, .falling-petals {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .petal {
+            position: absolute;
+            color: pink;
+            font-size: 1.5rem;
+            animation: fall 5s infinite ease-in;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        .love-meter {
+            width: 200px;
+            height: 20px;
+            background-color: lightgray;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .love-meter-fill {
+            height: 100%;
+            width: 0;
+            background-color: red;
+            transition: width 2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts"></div>
+    <div class="falling-petals"></div>
+    <div class="container">
+        <h1>Will You Be My Valentine, Utthara? ❤️</h1>
+        <p id="countdown">You have 15 seconds to decide!</p>
+        <div class="love-meter">
+            <div class="love-meter-fill"></div>
+        </div>
+        <div class="buttons">
+            <button class="yes" onclick="showGif(); showMessage(); takeScreenshot(); fillLoveMeter(); revealSurprise();">Yes</button>
+            <button class="no" onmouseover="moveButton(this)" onclick="fakeError()">No</button>
+        </div>
+        <div id="gifContainer" style="display:none; margin-top:20px;">
+            <img id="reactionGif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWFiOXJtMHBmcDh3Ym16ZGtweHRqMWp5cml1YWlydWtyd2pla3dpNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HG36w8YN2ZO3TwYItO/giphy.gif" alt="Happy Reaction" width="300">
+        </div>
+        <p id="message" style="display:none; font-size: 1.5rem; color: #ff4d4d; margin-top: 20px;">Deti hain jo sadayein Hawayein, hawayein Na jaane kya batayein Hawayein, <br>Hawayein Le jaaye tujhe kahaan Hawayein, hawayein Le jaaye mujhe kahaan Hawayein, hawayein💖</p>
+        <p id="surprise" style="display:none; font-size: 1.2rem; color: #ff6699; margin-top: 20px;">Surprise! You're the best thing that's ever happened to me! 💕</p>
+    </div>
+
+    <script>
+        function moveButton(btn) {
+            let x = Math.random() * (window.innerWidth - btn.clientWidth);
+            let y = Math.random() * (window.innerHeight - btn.clientHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function fakeError() {
+            alert("Oops! That's not an option. Try again.");
+        }
+
+        function fillLoveMeter() {
+            document.querySelector('.love-meter-fill').style.width = '100%';
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.innerHTML = '🌸';
+            petal.style.left = Math.random() * 100 + 'vw';
+            document.querySelector('.falling-petals').appendChild(petal);
+            setTimeout(() => petal.remove(), 5000);
+        }
+        setInterval(createPetal, 500);
+
+        function showGif() {
+            document.getElementById('gifContainer').style.display = 'block';
+        }
+
+        function showMessage() {
+            document.getElementById('message').style.display = 'block';
+        }
+
+        function revealSurprise() {
+            document.getElementById('surprise').style.display = 'block';
+        }
+
+        function takeScreenshot() {
+            html2canvas(document.body, { useCORS: true }).then(canvas => {
+                let link = document.createElement('a');
+                link.href = canvas.toDataURL();
+                link.download = 'valentine_screenshot.png';
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
